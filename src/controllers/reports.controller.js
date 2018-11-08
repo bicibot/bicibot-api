@@ -16,7 +16,7 @@ controller.getAll = async (req, res) => {
 };
 
 controller.addReport = async (req, res) => {
-  let reportToAdd = Report({
+  let reportToAdd = new Report({
     description: req.body.description
   });
   try {

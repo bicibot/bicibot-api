@@ -1,15 +1,24 @@
-import express from 'express'
-import bodyParser from 'body-parser'
-import routes from './routes/routes'
-import db from './config/database';
+import express from "express";
+import bodyParser from "body-parser";
+import cors from "cors";
+import router from './routes/index';
+import morgan from "morgan";
+import connectToDb  from "./config/db";
+require("dotenv").config();
+
+connectToDb();
 
 const app = express();
+const PORT = process.env.port || 3000;
+
+app.use(morgan("dev"));
+app.use(cors());
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-routes(app);
+app.use(router);
 
-var server = app.listen(3000, function () {
-    console.log("app running on port.", server.address().port);
+app.listen(PORT, () => {
+  console.log(`Server is running on ${PORT}`);
 });

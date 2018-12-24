@@ -1,4 +1,5 @@
 import Report from "../models/reports.model";
+require("dotenv").config();
 
 const controller = {};
 
@@ -16,15 +17,20 @@ controller.getAll = async (req, res) => {
 };
 
 controller.addReport = async (req, res) => {
-  let reportToAdd = new Report({
-    description: req.body.description
-  });
-  try {
-    const savedReport = await Report.addReport(reportToAdd);
-    res.send(savedReport);
-  } catch (err) {
-    res.status(400);
-    res.send(err);
+  if (req.header("authToken") === process.env.authToken) {
+    let reportToAdd = new Report({
+      description: req.body.description
+    });
+    try {
+      const savedReport = await Report.addReport(reportToAdd);
+      res.send(savedReport);
+    } catch (err) {
+      res.status(400);
+      res.send(err);
+    }
+  } else {
+    res.status(401);
+    res.send();
   }
 };
 

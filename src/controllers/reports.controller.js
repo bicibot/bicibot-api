@@ -24,9 +24,9 @@ controller.getAll = async (req, res) => {
 controller.addReport = async (req, res) => {
   if (req.header("authToken") === process.env.authToken) {
     try {
-      const agent =  new WebhookClient({ request: req, response: res });
+      const agent = new WebhookClient({ request: req, response: res });
 
-      await function addReport(agent) {
+      const addReport = async function addReport(agent) {
         // let reportToAdd = new Report({
         //   description: req.body.description
         // });
@@ -57,22 +57,28 @@ controller.addReport = async (req, res) => {
         //   console.log(a);
         // })
 
-        const geoCoding = async address => {
-          await geo.geocode("mapbox.places", address, function(err, geoData) {
-            return geoData.features[0].center;
+        function geoCoding(address) {
+          return new Promise (function(resolve,reject) {
+            geo.geocode("mapbox.places", address, function(err, res) {
+            if (!err) {
+              resolve(res.features[0].place_name);
+            } else {
+              reject(new Error('Endereço não encontrado'))
+            }
           });
-        };
-
-        const location = geoCoding(agent.parameters.location["street-address"]);
-        console.log(location);
-
-        return agent.add(`Sua localização é ${location}`);
+        })
+      }
+        const location = await geoCoding(
+          agent.parameters.location["street-address"],
+        );
+        return agent.add(`Sua localização é ${location} ?`);
       };
+
       let intentMap = new Map();
       intentMap.set("denuncia.tipo - no - address", addReport);
       agent.handleRequest(intentMap);
     } catch (err) {
-      console.log(err);
+      console.log(err)
     }
   } else {
     res.status(401);

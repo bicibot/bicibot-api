@@ -1,8 +1,9 @@
-import Report from "../models/reports.model";
-import geo from "mapbox-geocoding";
-const { WebhookClient, Card, Suggestion } = require("dialogflow-fulfillment");
+import geo from 'mapbox-geocoding';
+import Report from '../models/reports.model';
 
-require("dotenv").config();
+const { WebhookClient } = require('dialogflow-fulfillment');
+
+require('dotenv').config();
 
 geo.setAccessToken(process.env.mapboxToken);
 
@@ -22,63 +23,49 @@ controller.getAll = async (req, res) => {
 };
 
 controller.addReport = async (req, res) => {
-  if (req.header("authToken") === process.env.authToken) {
+  if (req.header('authToken') === process.env.authToken) {
     try {
       const agent = new WebhookClient({ request: req, response: res });
 
-      const addReport = async function addReport(agent) {
-        // let reportToAdd = new Report({
-        //   description: req.body.description
-        // });
-        // try {
-        //   const savedReport = await Report.addReport(reportToAdd);
-        //   res.send(savedReport);
-        // } catch (err) {
-        //   res.status(400);
-        //   res.send(err);
-        // }
-        // } else {
-        //   console.log("Entrou no Else");
-        //   res.status(401);
-        //   res.send();
-        // }
-
-        // let address = geo.geocode('mapbox.places', agent.parameters.location["street-address"], function (err, geoData) {
-        //   return new Promise (function(resolve, reject) {
-        //     if (geoData) {
-        //       resolve(geoData.features[0].center);
-        //     } else {
-        //       reject(new Error(err));
-        //     }
-        //   })
-        // });
-
-        // geoCoding(agent.parameters.location["street-address"]).then(a => {
-        //   console.log(a);
-        // })
-
+      const addReport = async function addReport() {
+        // console.log(agent.contexts[0].parameters); -> A way to access parameter of other contexts
         function geoCoding(address) {
-          return new Promise (function(resolve,reject) {
-            geo.geocode("mapbox.places", address, function(err, res) {
-            if (!err) {
-              resolve(res.features[0].place_name);
-            } else {
-              reject(new Error('Endereço não encontrado'))
-            }
+          return new Promise(function (resolve, reject) {
+            geo.geocode('mapbox.places', address, function (err) {
+              if (!err) {
+                resolve(res.features[0].center);
+              } else {
+                reject(new Error('Endereço não encontrado'));
+              }
+            });
           });
-        })
-      }
-        const location = await geoCoding(
-          agent.parameters.location["street-address"],
-        );
-        return agent.add(`Sua localização é ${location} ?`);
+        }
+
+        const latlng = await geoCoding(agent.parameters.location['street-address']);
+        const reportToAdd = new Report({
+          description: agent.parameters['report-description'],
+          report_type: agent.parameters['report-type'],
+          location: latlng,
+        });
+
+        try {
+          await Report.addReport(reportToAdd);
+          res.status(201);
+          return agent.add('Denuncia realizada com sucesso.');
+        } catch (err) {
+          console.log(err);
+          res.status(400);
+          res.send(err);
+          agent.add('Ocorreu um erro, por favor, tente novamente.');
+        }
       };
 
-      let intentMap = new Map();
-      intentMap.set("denuncia.tipo - no - address", addReport);
+      const intentMap = new Map();
+      intentMap.set('denuncia2', addReport);
+      intentMap.set('denuncia2 - yes', addReport);
       agent.handleRequest(intentMap);
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
   } else {
     res.status(401);

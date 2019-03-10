@@ -1,46 +1,38 @@
 import mongoose from "mongoose";
 
-const pointSchema = new mongoose.Schema({
-  type: {
-    type: String,
-    enum: ["Point"],
-    required: true
-  },
-  coordinates: {
-    type: [Number],
-    required: true
-  }
-});
-
-const imageSchema = new mongoose.Schema({
-  type: String,
-  data: Buffer
-});
-
 const reportSchema = new mongoose.Schema(
   {
-    description: { type: String, trim: true },
-    location: {
-      type: pointSchema
+    description: {
+      type: String,
+      trim: true,
+      required: true
     },
-    report_type: String,
-    plate: { type: String, trim: true },
-    img: {
-      type: imageSchema
+    location: {
+      type: [Number, Number],
+      index: "2d",
+      required: true
+    },
+    report_type: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    plate: {
+      type: String,
+      trim: true
     }
   },
   { timestamps: true }
 );
 
-let reportsModel = mongoose.model('Report', reportSchema);
-
+let reportsModel = mongoose.model("Report", reportSchema);
 
 reportsModel.getAll = () => {
   return reportsModel.find({});
-}
+};
 
-reportsModel.addReport = (reportToAdd) => {
+reportsModel.addReport = reportToAdd => {
   return reportToAdd.save();
-}
+};
 
 export default reportsModel;

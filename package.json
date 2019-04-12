@@ -20,7 +20,6 @@
     "dialogflow-fulfillment": "^0.6.1",
     "dotenv": "^6.1.0",
     "express": "^4.16.4",
-    "express-subdomain": "^1.0.5",
     "mapbox-geocoding": "^0.1.5",
     "mongodb": "^3.1.10",
     "mongoose": "^5.3.14",

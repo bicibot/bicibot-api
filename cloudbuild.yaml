@@ -1,4 +1,4 @@
 #cloudbuild.yaml
 steps:
 - name: 'docker/compose:1.19.0'
-  args: [-f', 'docker-compose.yml', '-f', 'docker-production.yml', '-d', 'up']
+  args: ['-f', 'docker-compose.yml', '-f', 'docker-production.yml', '-d', 'up']

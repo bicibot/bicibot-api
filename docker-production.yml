@@ -13,6 +13,9 @@ services:
       - "80:80"
       - "8080:8080"
       - "443:443"
+    labels:
+      traefik.enable: true
+      traefik.frontend.rule: "Host:traefik.bicibot.org"
     volumes:
       - /docker/traefik:/etc/traefik
       - ./traefik.toml:/traefik.toml

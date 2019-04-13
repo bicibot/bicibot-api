@@ -1,0 +1,21 @@
+version: "3"
+
+services:
+  node:
+    labels:
+      - "traefik.enable=true"
+      - "traefik.frontend.rule=Host:api.bicibot.org"
+
+  reverse-proxy:
+    image: traefik:alpine
+    command: --api --docker.exposedbydefault=false
+    ports:
+      - "80:80"
+      - "8080:8080"
+      - 443:443
+    volumes:
+      - /docker/traefik:/etc/traefik
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - CLOUDFLARE_EMAIL=${CF_EMAIL}
+      - CLOUDFLARE_API_KEY=${CF_API}

@@ -11,8 +11,9 @@ services:
     command: --api --docker.exposedbydefault=false
     ports:
       - "80:80"
-      - "8080:8080"
       - "443:443"
+    expose:
+      - "8080"
     labels:
       traefik.enable: true
       traefik.frontend.rule: "Host:traefik.bicibot.org"

@@ -31,7 +31,8 @@ controller.addReport = async (req, res) => {
         // console.log(agent.contexts[0].parameters); -> A way to access parameter of other contexts
         function geoCoding(address) {
           return new Promise(function (resolve, reject) {
-            geo.geocode('mapbox.places', address, function (err) {
+            geo.geocode('mapbox.places', address, function (err, res) {
+              console.log(res);
               if (!err) {
                 resolve(res.features[0].center);
               } else {
@@ -41,10 +42,10 @@ controller.addReport = async (req, res) => {
           });
         }
 
-        const latlng = await geoCoding(agent.parameters.location['street-address']);
+        const latlng = await geoCoding(agent.contexts[0].parameters.location['street-address']);
         const reportToAdd = new Report({
-          description: agent.parameters['report-description'],
-          report_type: agent.parameters['report-type'],
+          description: agent.contexts[0].parameters['report-description'],
+          report_type: agent.contexts[0].parameters['report-type'],
           location: latlng,
         });
 

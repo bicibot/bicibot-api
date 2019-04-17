@@ -3,6 +3,7 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import router from './routes/index';
 import morgan from "morgan";
+import signale from "signale";
 import connectToDb  from "./config/db";
 require("dotenv").config();
 
@@ -20,5 +21,5 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(router);
 
 app.listen(PORT, () => {
-  console.log(`Server is running on ${PORT}`);
+  signale.success(`Server is running on ${PORT}`);
 });

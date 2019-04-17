@@ -1,7 +1,9 @@
 import mongoose from "mongoose";
+import signale from "signale";
 require("dotenv").config();
 
 mongoose.Promise = global.Promise;
+mongoose.set('useCreateIndex', true);
 
 const connectToDb = async () => {
   try {
@@ -11,9 +13,9 @@ const connectToDb = async () => {
       }/${process.env.database}`,
       { useNewUrlParser: true }
     );
-    console.log("Database connection successful");
+    signale.success("Database connection successful");
   } catch (err) {
-    console.error("Database connection error");
+    signale.fatal("Database connection error");
   }
 };
 

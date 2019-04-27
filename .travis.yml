@@ -1,16 +1,24 @@
+language: node_js
+node_js:
+  - "11"
+cache:
+   directories:
+     - node_modules
+services:
+  - docker
 env:
-- DOCKER_COMPOSE_VERSION=1.23.2
+  - DOCKER_COMPOSE_VERSION=1.23.2
 before_install:
-- openssl aes-256-cbc -K $encrypted_61ddf7a0319b_key -iv $encrypted_61ddf7a0319b_iv
-  -in .env.enc -out .env -d
-- sudo rm /usr/local/bin/docker-compose
-- curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname
-  -s`-`uname -m` > docker-compose
-- chmod +x docker-compose
-- sudo mv docker-compose /usr/local/bin
-- docker-compose -f docker-test.yml up
+  - openssl aes-256-cbc -K $encrypted_61ddf7a0319b_key -iv $encrypted_61ddf7a0319b_iv
+    -in .env.enc -out .env -d
+install: 
+  - npm install
+before_script: 
+  - docker-compose -f docker-test.yml up
 deploy:  
   - provider: script
     script: bash scripts/deploy.sh
     on:
       branch: master
+after_script:
+  - docker-compose kill

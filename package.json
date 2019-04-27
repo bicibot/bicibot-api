@@ -4,8 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+<<<<<<< HEAD
     "dev": "nodemon src/server.js --legacy-watch --exec babel-node --",
     "start": "babel-node src/server.js"
+=======
+    "start": "nodemon src/server.js --legacy-watch --exec babel-node --",
+    "test": "echo \"Error: no test specified\" && exit 1"
+>>>>>>> 2a73c17b6394fe13f82fd6ebdc539378570d31a4
   },
   "keywords": [],
   "author": "",

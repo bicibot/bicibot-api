@@ -9,3 +9,8 @@ before_install:
 - chmod +x docker-compose
 - sudo mv docker-compose /usr/local/bin
 - docker-compose -f docker-test.yml up
+deploy:  
+  - provider: script
+    script: bash scripts/deploy.sh
+    on:
+      branch: master

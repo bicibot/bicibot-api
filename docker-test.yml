@@ -10,8 +10,5 @@ services:
       - .env
     ports:
       - "3000:3000"
-    command: npm install && npm start
-  # mongo:
-  #   image: mongo
-  #   ports:
-  #   - "27017:27017"
+    command: bash scripts/install_start.sh 
+   

@@ -2,6 +2,7 @@ version: "3"
 
 services:
   node:
+    command: "npx pm2 start src/server.js --no-daemon --interpreter ./node_modules/babel-cli/bin/babel-node.js" # The command docker will execute when starting the container, this command is not allowed to exit, if it does your container will stop
     labels:
       - "traefik.enable=true"
       - "traefik.frontend.rule=Host:api.bicibot.org"

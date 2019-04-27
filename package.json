@@ -4,9 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon src/server.js --legacy-watch --exec babel-node --",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "deploy": "firebase deploy --debug --token \"$FIREBASE_TOKEN\""
+    "dev": "nodemon src/server.js --legacy-watch --exec babel-node --",
+    "start": "babel-node src/server.js"
   },
   "keywords": [],
   "author": "",

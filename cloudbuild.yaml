@@ -1,4 +1,13 @@
 #cloudbuild.yaml
 steps:
+  - name: gcr.io/cloud-builders/gcloud
+  args:
+  - kms
+  - decrypt
+  - --ciphertext-file=.env.enc
+  - --plaintext-file=.env
+  - --location=global
+  - --keyring=cloudbuild-env
+  - --key=cloudbuild-env
 - name: 'docker/compose:1.19.0'
   args: ['-f', 'docker-compose.yml', '-f', 'docker-production.yml', 'up', '-d']

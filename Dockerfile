@@ -1,6 +1,6 @@
 FROM node:lts
-COPY package*.json ./
 WORKDIR /bicibot/backend
+COPY package*.json ./
 RUN npm install --save-prod pm2
 RUN npm install --verbose
 COPY . .

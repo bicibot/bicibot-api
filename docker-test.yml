@@ -10,5 +10,5 @@ services:
       - .env
     ports:
       - "3000:3000"
-    command: bash scripts/install_start.sh 
+    command: npm start
    

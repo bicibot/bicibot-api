@@ -67,6 +67,8 @@ controller.addReport = async (req, res) => {
       agent.handleRequest(intentMap);
     } catch (err) {
       console.log(err);
+      res.status(400);
+      res.send(err);
     }
   } else {
     res.status(401);

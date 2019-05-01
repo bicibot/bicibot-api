@@ -3,7 +3,7 @@ import signale from "signale";
 require("dotenv").config();
 
 mongoose.Promise = global.Promise;
-mongoose.set('useCreateIndex', true);
+mongoose.set('useCreateIndex', true)
 
 const connectToDb = async () => {
   try {

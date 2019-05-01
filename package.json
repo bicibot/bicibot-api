@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon src/server.js --legacy-watch --exec babel-node --",
     "start": "babel-node src/server.js",
-    "test": "mocha ./tests --recursive --require @babel/register --timeout 10000 --exit"
+    "test": "jest --coverage"
   },
   "keywords": [],
   "author": "",
@@ -33,13 +33,12 @@
     "@babel/node": "^7.2.2",
     "@babel/preset-env": "^7.4.4",
     "@babel/register": "^7.4.4",
-    "chai": "^4.2.0",
     "eslint": "^5.15.1",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.16.0",
     "jest": "^24.7.1",
-    "mocha": "^6.1.4",
     "nodemon": "^1.18.7",
+    "sinon": "^7.3.2",
     "supertest": "^4.0.2"
   }
 }

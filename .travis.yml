@@ -13,7 +13,7 @@ before_install:
 install:
 - npm install
 before_script:
-- docker-compose -f docker-test.yml up
+- docker-compose -f docker-test.yml up --exit-code-from node
 before_deploy:
 - eval "$(ssh-agent -s)"
 - chmod 600 $TRAVIS_BUILD_DIR/deploy_rsa

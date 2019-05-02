@@ -1,6 +1,4 @@
 language: node_js
-addons:
-  ssh_known_hosts: "$DEPLOY_HOST"
 node_js:
 - '11'
 cache:
@@ -18,8 +16,8 @@ before_script:
 - docker-compose -f docker-test.yml up
 before_deploy:
 - eval "$(ssh-agent -s)"
-- chmod 600 /tmp/deploy_rsa
-- ssh-add /tmp/deploy_rsa
+- chmod 600 $TRAVIS_BUILD_DIR/deploy_rsa
+- ssh-add $TRAVIS_BUILD_DIR/deploy_rsa
 deploy:
 - provider: script
   skip_cleanup: true

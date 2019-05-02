@@ -2,14 +2,13 @@ process.env.NODE_ENV = "test";
 require("dotenv").config();
 import Report from "../../src/models/reports.model";
 import mongoose from "mongoose";
+import signale from "signale";
 
 mongoose.set("useCreateIndex", true);
-mongoose.connect(
-  `mongodb+srv://${process.env.user}:${process.env.pw}@${process.env.server}/${
-    process.env.database
-  }`,
-  { useNewUrlParser: true }
-);
+mongoose
+  .connect("mongodb://mongo:27017/test", { useNewUrlParser: true })
+  .then(() => signale.success("Database connection successful"))
+  .catch(err => signale.fatal(err));
 
 //Our parent block
 describe("Report model test", () => {

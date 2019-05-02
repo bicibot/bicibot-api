@@ -1,24 +1,31 @@
 language: node_js
 node_js:
-  - "11"
+- '11'
 cache:
-   directories:
-     - node_modules
+  directories:
+  - node_modules
 services:
-  - docker
-env:
-  - DOCKER_COMPOSE_VERSION=1.23.2
+- docker
 before_install:
-  - openssl aes-256-cbc -K $encrypted_61ddf7a0319b_key -iv $encrypted_61ddf7a0319b_iv
-    -in .env.enc -out .env -d
-install: 
-  - npm install
-before_script: 
-  - docker-compose -f docker-test.yml up
-deploy:  
-  - provider: script
-    script: bash scripts/deploy.sh
-    on:
-      branch: master
+- openssl aes-256-cbc -K $encrypted_61ddf7a0319b_key -iv $encrypted_61ddf7a0319b_iv
+  -in secret_files.tar.enc -out secret_files.tar -d
+- tar xvf secret_files.tar
+install:
+- npm install
+before_script:
+- docker-compose -f docker-test.yml up
+before_deploy:
+- eval "$(ssh-agent -s)"
+- chmod 600 $TRAVIS_BUILD_DIR/deploy_rsa
+- ssh-add $TRAVIS_BUILD_DIR/deploy_rsa
+deploy:
+- provider: script
+  skip_cleanup: true
+  script: bash scripts/deploy.sh
+  on:
+    branch: master
 after_script:
-  - docker-compose kill
+- docker-compose kill
+addons:
+  ssh_known_hosts:
+    secure: GSCbeZauyCAQZZr5WYv7kwJvBYnbmPLjpfwKy17RQ/UP8aat31lUStJPi/CHRHRkB7T9KdersWAkb73GjPSfjfhDIpTRKu6uPVhsPetwTn/AS96fR3DqwXdZQKUGuEMxJL56DOzhKOv7tyxYyGL4gcJKRqwMLnz0cPQ2C239jp4IASkMTlB3Q8aG3RttA7lpKPjFOPl7nlJdvFx/vDQ8xuvuIzTdiPgVIGJ/wIIFlPzfIZKKYRab6Jgxq3Csf85t11TxhsJP0xHJNq3MP3zJyRtN1lJ5SN80oqr7ZzAN7IXAJcNwwTrlGXNo/8ExE7JJEqdMuUzsA6tXziqqXJV43dah2uyuL0Du7Jv4ulJ1v2rnSQMCds2dXGH5KMA4cW7+/csYO5XVMhU3I5GwgkTPdNFd2cp7R/se8EYezUyyrxfZpFf14pOJylQ4SwY8MWm7TCDxrhGO+JYLjphnPGPGk4TD/NTZQOLKVRaush0oLmhWHzoJbk4v9c8KRxBr1Eks+fX11ZQEp6biNisdFZ9S0WfJ0k+60o/7mGXIe2JroubFRnxuseem7ptQFK31UclLPTI1lvnhL93YQMGKZadPdEys/9ObXfb0h9iU4/k9gkIYDiXw06L9pfPhjJCxzyYWaHhXN8IloY9+X1smJ0z5OUR3h2Yex6wCNp6Q4JzKBvU=

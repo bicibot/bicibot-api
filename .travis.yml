@@ -1,9 +1,3 @@
-language: node_js
-node_js:
-- '11'
-cache:
-  directories:
-  - node_modules
 services:
 - docker
 before_install:

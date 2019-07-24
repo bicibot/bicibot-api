@@ -14,7 +14,7 @@
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
     "@mapbox/mapbox-sdk": "^0.5.0",
-    "actions-on-google": "^2.5.0",
+    "actions-on-google": "^2.9.1",
     "body-parser": "^1.18.3",
     "cors": "^2.8.5",
     "dialogflow-fulfillment": "^0.6.1",

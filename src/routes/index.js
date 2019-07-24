@@ -10,4 +10,8 @@ router.post('/denuncias', (req,res) => {
     reportController.addReport(req,res);
 });
 
+router.post('/', (req,res) => {
+  reportController.addReport(req,res);
+});
+
 export default router;

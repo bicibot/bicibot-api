@@ -15,9 +15,24 @@ const reportSchema = new mongoose.Schema(
     report_type: {
       type: String,
       required: true,
-      trim: true,
+      enum: ["threat", "maintenance", "invasion"],
+      trim: true
     },
     plate: {
+      type: String,
+      trim: true,
+      validate: {
+        validator: function(p) {
+          return /^[a-zA-Z]{3}[0-9]{4}\b/.test(p.replace("-", ""))
+        },
+        message: props => `${props.value} não é uma placa valida!`
+      }
+    },
+    maintenace_type: {
+      type: String,
+      trim: true
+    },
+    maintenance_state: {
       type: String,
       trim: true
     }

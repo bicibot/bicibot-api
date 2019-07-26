@@ -33,7 +33,7 @@ describe("Report model test", () => {
       const report = new Report({
         description: "Report Description",
         location: [42.217539, -160.83109],
-        report_type: "Ameaça",
+        report_type: "threat",
         plate: "ABC-1241"
       });
       await report.save();
@@ -46,7 +46,7 @@ describe("Report model test", () => {
       const report = new Report({
         description: "Report Description",
         location: [42.217539, -160.83109],
-        report_type: "Ameaça",
+        report_type: "threat",
         plate: "ABC-1241"
       });
       await report.save();
@@ -65,7 +65,7 @@ describe("Report model test", () => {
       const report = new Report({
         description: "Report Description",
         location: [42.217539, -160.83109],
-        report_type: "Ameaça",
+        report_type: "threat",
         plate: "ABC-1241"
       });
       const savedReport = await Report.addReport(report);

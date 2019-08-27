@@ -5,17 +5,23 @@ const reportSchema = new mongoose.Schema(
     description: {
       type: String,
       trim: true,
-      required: true
+      required: false
     },
     location: {
-      type: [Number, Number],
+      type: Object,
       index: "2d",
       required: true
+    },
+    city: {
+      type: String,
+      required: true,
+      enum: ["Recife", "São Paulo"],
+      trim: true
     },
     report_type: {
       type: String,
       required: true,
-      enum: ["threat", "maintenance", "invasion"],
+      enum: ["Ameaça", "Manutenção", "Invasão"],
       trim: true
     },
     plate: {
@@ -23,7 +29,7 @@ const reportSchema = new mongoose.Schema(
       trim: true,
       validate: {
         validator: function(p) {
-          return /^[a-zA-Z]{3}[0-9]{4}\b/.test(p.replace("-", ""))
+          return /^[a-zA-Z]{3}[0-9]{4}\b/.test(p.replace("-", ""));
         },
         message: props => `${props.value} não é uma placa valida!`
       }
@@ -32,7 +38,15 @@ const reportSchema = new mongoose.Schema(
       type: String,
       trim: true
     },
-    maintenance_state: {
+    invasion_state: {
+      type: String,
+      trim: true
+    },
+    invasion_vehicle: {
+      type: String,
+      trim: true
+    },
+    invasion_time: {
       type: String,
       trim: true
     }
@@ -40,14 +54,14 @@ const reportSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-let reportsModel = mongoose.model("Report", reportSchema);
+const Report = mongoose.model("Report", reportSchema);
 
-reportsModel.getAll = () => {
-  return reportsModel.find({});
+Report.getAll = () => {
+  return Report.find({});
 };
 
-reportsModel.addReport = reportToAdd => {
-  return reportToAdd.save();
+Report.addReport = async reportToAdd => {
+  return await new Report(reportToAdd).save();
 };
 
-export default reportsModel;
+export default Report;

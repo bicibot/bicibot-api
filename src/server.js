@@ -1,10 +1,10 @@
 import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
-import router from './routes/index';
+import router from "./routes/index";
 import morgan from "morgan";
 import signale from "signale";
-import connectToDb  from "./config/db";
+import connectToDb from "./config/db";
 require("dotenv").config();
 
 connectToDb();

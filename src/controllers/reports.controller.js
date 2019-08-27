@@ -36,10 +36,10 @@ controller.getAll = async (req, res) => {
 //   agent.contexts[0].parameters.location["street-address"]
 // );
 
-
 controller.addReport = async (req, res) => {
   if (req.header("authToken") === process.env.authToken) {
     try {
+      console.log(req.body);
       await Report.addReport(req.body);
       res.status(201);
       res.send("Denuncia realizada com sucesso");

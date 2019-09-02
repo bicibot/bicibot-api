@@ -33,8 +33,9 @@ describe("Report model test", () => {
       const report = new Report({
         description: "Report Description",
         location: [42.217539, -160.83109],
-        report_type: "threat",
-        plate: "ABC-1241"
+        report_type: "Ameaça",
+        plate: "ABC-1241",
+        city: "Recife"
       });
       await report.save();
 
@@ -46,8 +47,9 @@ describe("Report model test", () => {
       const report = new Report({
         description: "Report Description",
         location: [42.217539, -160.83109],
-        report_type: "threat",
-        plate: "ABC-1241"
+        report_type: "Ameaça",
+        plate: "ABC-1241",
+        city: "Recife"
       });
       await report.save();
 
@@ -65,8 +67,9 @@ describe("Report model test", () => {
       const report = new Report({
         description: "Report Description",
         location: [42.217539, -160.83109],
-        report_type: "threat",
-        plate: "ABC-1241"
+        report_type: "Ameaça",
+        plate: "ABC-1241",
+        city: "Recife"
       });
       const savedReport = await Report.addReport(report);
 

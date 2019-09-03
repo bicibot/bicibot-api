@@ -6,10 +6,6 @@ router.get("/denuncias", (req, res) => {
   reportController.getAll(req, res);
 });
 
-router.post("/denuncias", (req, res) => {
-  reportController.addReport(req, res);
-});
-
 router.post("/", (req, res) => {
   reportController.addReport(req, res);
 });

@@ -20,32 +20,16 @@ controller.getAll = async (req, res) => {
   }
 };
 
-// function geoCoding(address) {
-//   return new Promise(function(resolve, reject) {
-//     geo.geocode("mapbox.places", address, function(err, res) {
-//       if (!err) {
-//         resolve(res.features[0].center);
-//       } else {
-//         reject(new Error("Endereço não encontrado"));
-//       }
-//     });
-//   });
-// }
-
-// const latlng = await geoCoding(
-//   agent.contexts[0].parameters.location["street-address"]
-// );
-
-const removeEmpty = obj => {
-  Object.entries(obj).forEach(
-    ([key, val]) =>
-      (val && typeof val === "object" && removeEmpty(val)) ||
-      ((val === null || val === "") && delete obj[key])
-  );
-  return obj;
-};
-
 controller.addReport = async (req, res) => {
+  const removeEmpty = obj => {
+    Object.entries(obj).forEach(
+      ([key, val]) =>
+        (val && typeof val === "object" && removeEmpty(val)) ||
+        ((val === null || val === "") && delete obj[key])
+    );
+    return obj;
+  };
+
   if (req.header("authToken") === process.env.authToken) {
     try {
       await Report.addReport(removeEmpty(req.body));

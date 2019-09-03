@@ -49,6 +49,14 @@ const reportSchema = new mongoose.Schema(
     invasion_time: {
       type: String,
       trim: true
+    },
+    bus_company: {
+      type: String,
+      trim: true
+    },
+    bus_number: {
+      type: String,
+      trim: true
     }
   },
   { timestamps: true }

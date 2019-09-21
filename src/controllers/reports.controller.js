@@ -38,11 +38,13 @@ controller.addReport = async (req, res) => {
     return obj;
   };
 
-  const tweet = async report => {
+  const tweet = report => {
     client
-      .post("statuses/update", { status: report.description })
-      .then(function(tweet) {
-        console.log(tweet);
+      .post("statuses/update", {
+        status: report.description,
+        lat: report.location[1],
+        long: report.location[0],
+        display_coordinates: true
       })
       .catch(function(error) {
         throw error;
@@ -53,7 +55,7 @@ controller.addReport = async (req, res) => {
     try {
       let report = removeEmpty(req.body);
       await Report.addReport(report);
-      await tweet(report);
+      tweet(report);
       res.status(201);
       res.send("Denuncia realizada com sucesso");
     } catch (err) {

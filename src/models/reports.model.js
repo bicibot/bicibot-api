@@ -57,6 +57,10 @@ const reportSchema = new mongoose.Schema(
     bus_number: {
       type: String,
       trim: true
+    },
+    address: {
+      type: String,
+      trim: true
     }
   },
   { timestamps: true }

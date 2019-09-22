@@ -21,7 +21,7 @@ const reportSchema = new mongoose.Schema(
     report_type: {
       type: String,
       required: true,
-      enum: ["Ameaça", "Manutenção", "Invasão"],
+      enum: ["Ameaça", "Manutenção", "Invasão", "Ciclofaixa apagada"],
       trim: true
     },
     plate: {

@@ -43,19 +43,13 @@ controller.addReport = async (req, res) => {
 
     switch (report.report_type) {
       case 'Invasão':
-        return `Em ${report.city}: denúncia de ${report.invasion_vehicle} ${report.invasion_state} 
-        na ciclofaixa na "${report.address}", entre ${report.invasion_time}`;
-        break;
+        return `Em ${report.city}: denúncia de ${report.invasion_vehicle.toLowerCase()} ${report.invasion_state.toLowerCase()} na ciclofaixa na "${report.address}", entre ${report.invasion_time}`;
       case 'Ameaça':
-        return `Nova denúncia em ${report.city}: ameaça de um motorista de "${report.invasion_vehicle}" (${plate}) que "${report.description}" no endereço "${report.address}"`;
-        break;
+        return `Nova denúncia em ${report.city}: ameaça de um motorista de ${report.invasion_vehicle.toLowerCase()} (${plate.toUpperCase()}) que "${report.description}" no endereço "${report.address}"`;
       case 'Manutenção':
-          return `Em ${report.city}: denúncia de falta de manutenção de ${report.maintenace_type} na "${report.address}"`;
-        break;
+          return `Em ${report.city}: denúncia de falta de manutenção de ${report.maintenace_type.toLowerCase()} na "${report.address}"`;
       case 'Ciclofaixa apagada':
         return `Em ${report.city}: denúncia de ciclofaixa apagada em "${report.address}"`;
-        break;
-      
     } 
   }
 

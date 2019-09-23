@@ -39,13 +39,16 @@ controller.addReport = async (req, res) => {
   };
 
   const getDescription = report => {
-    let plate = report.plate || "Placa não informada"
+    let plate = ""
+    if (report.plate != undefined) {
+      plate = `(${report.plate})`
+    }
 
     switch (report.report_type) {
       case 'Invasão':
         return `Em ${report.city}: denúncia de ${report.invasion_vehicle.toLowerCase()} ${report.invasion_state.toLowerCase()} na ciclofaixa na "${report.address}", entre ${report.invasion_time}`;
       case 'Ameaça':
-        return `Nova denúncia em ${report.city}: ameaça de um motorista de ${report.invasion_vehicle.toLowerCase()} (${plate.toUpperCase()}) que "${report.description}" no endereço "${report.address}"`;
+        return `Nova denúncia em ${report.city}: ameaça de um motorista de ${report.invasion_vehicle.toLowerCase()} ${plate} que "${report.description}" no endereço "${report.address}"`;
       case 'Manutenção':
           return `Em ${report.city}: denúncia de falta de manutenção de ${report.maintenace_type.toLowerCase()} na "${report.address}"`;
       case 'Ciclofaixa apagada':

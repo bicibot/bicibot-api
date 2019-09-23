@@ -38,10 +38,31 @@ controller.addReport = async (req, res) => {
     return obj;
   };
 
+  const getDescription = report => {
+    let plate = report.plate || "Placa não informada"
+
+    switch (report.report_type) {
+      case 'Invasão':
+        return `Em ${report.city}: denúncia de ${report.invasion_vehicle} ${report.invasion_state} 
+        na ciclofaixa na "${report.address}", entre ${report.invasion_time}`;
+        break;
+      case 'Ameaça':
+        return `Nova denúncia em ${report.city}: ameaça de um motorista de "${report.invasion_vehicle}" (${plate}) que "${report.description}" no endereço "${report.address}"`;
+        break;
+      case 'Manutenção':
+          return `Em ${report.city}: denúncia de falta de manutenção de ${report.maintenace_type} na "${report.address}"`;
+        break;
+      case 'Ciclofaixa apagada':
+        return `Em ${report.city}: denúncia de ciclofaixa apagada em "${report.address}"`;
+        break;
+      
+    } 
+  }
+
   const tweet = report => {
     client
       .post("statuses/update", {
-        status: report.description,
+        status: getDescription(report),
         lat: report.location[1],
         long: report.location[0],
         display_coordinates: true
